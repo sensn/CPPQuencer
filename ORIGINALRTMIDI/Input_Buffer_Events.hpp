@@ -148,13 +148,22 @@ VOID KeyEventProc(KEY_EVENT_RECORD ker)
 			//ispressed = ++count % 2;
 
 			sendMidiBank(0, 7);                 //channel - Bank number              
-			//midi1_sendPrgChange(0, 1);			//channel - Prg Number	
+			midi1_sendPrgChange(0, 0);			//channel - Prg Number	
 			
-			//sendMidiBank(1, 1);                 //channel - Bank number              
-			//midi1_sendPrgChange(1, 13);
+			sendMidiBank(1, 1);                 //channel - Bank number              
+			midi1_sendPrgChange(1, 41);
 
-			//sendMidiBank(2, 1);                 //channel - Bank number              
-			//midi1_sendPrgChange(2, 2);
+			sendMidiBank(2, 1);                 //channel - Bank number              
+			midi1_sendPrgChange(2, 42);
+			
+			sendMidiBank(3, 3);                 //channel - Bank number              
+			midi1_sendPrgChange(3, 2);
+			
+			sendMidiBank(4, 1);                 //channel - Bank number              
+			midi1_sendPrgChange(4, 12);
+			
+			sendMidiBank(5, 1);                 //channel - Bank number              
+			midi1_sendPrgChange(5, 18);
 		}
 	}
 	else {

@@ -9,7 +9,8 @@
 #include <chrono>
 #include <cstdlib>
 #include <iostream>
-#include <rtmidi17/rtmidi17.hpp>
+#include "rtmidi17/rtmidi17.hpp"
+//#include "rtmidi17.hpp"
 #include <thread>
 
 ///****Cquencer Includes****//
@@ -36,6 +37,7 @@
 #include "string.h"
 
 #include "rlutil.h"
+//#include "../RtMidi17-master/rtmidi17/rtmidi17.hpp"
 #define _USE_MATH_DEFINES
 
 
@@ -53,34 +55,34 @@ void midi1_noteout(int chan, int noten, int velo);
 
 struct dat
 {
-    int posX;
-    int posY;
-    int triggerX;
-    int notenumber;
-    char playerChr;
-    char name[MAX];
+	int posX;
+	int posY;
+	int triggerX;
+	int notenumber;
+	char playerChr;
+	char name[MAX];
 
-    struct date {
-        int day;
-        int month;
-        int year;
-    }date;
+	struct date {
+		int day;
+		int month;
+		int year;
+	}date;
 };
 typedef struct {
-    int trigger[16];
-    int notenumber;
-    int vel;
-    int channel;
-	
+	int trigger[16];
+	int notenumber;
+	int vel;
+	int channel;
+
 }Room;
 struct channel {
 	struct dat lib[X_COUNT + 1][Y_COUNT + 1] = { '\0' };
 };
 typedef struct {
-    int screenX;
-    int screenY;
+	int screenX;
+	int screenY;
 	//dat lib[8];
-    Room room[8];
+	Room room[8];
 }House;
 //***
 typedef struct IDirectSound* LPDIRECTSOUND;
@@ -97,11 +99,11 @@ extern int posY;
 extern int myMouseB;
 extern int thebpm;
 extern int myKey;
-int posX=0;
-int posY=0;
-int myMouseB=0;
+int posX = 0;
+int posY = 0;
+int myMouseB = 0;
 int thebpm = 150;
- int myKey=0;
+int myKey = 0;
 double ms;
 double dur;
 double swing = 0;
@@ -117,9 +119,9 @@ const char* fpath[] = { "C:\\Users\\ATN_70\\Desktop\\C2_Ausbildung-master\\C2_Au
 int active = 0;
 channel chan[8];
 rtmidi::midi_out midiout;
-std::vector<unsigned char> message(3,0);     //the Midi message Container
-std::vector<unsigned char> message1(2,0);     //the Midi message Container
-int playSequence(dat [9][17]);
+std::vector<unsigned char> message(3, 0);     //the Midi message Container
+std::vector<unsigned char> message1(2, 0);     //the Midi message Container
+int playSequence(dat[9][17]);
 
 
 
@@ -128,118 +130,118 @@ int playSequence(dat [9][17]);
 // It returns false if there are no ports available.
 bool chooseMidiPort(rtmidi::midi_out& rtmidi)
 {
-    std::cout << "\nWould you like to open a virtual output port? [y/N] ";
+	std::cout << "\nWould you like to open a virtual output port? [y/N] ";
 
-    std::string keyHit;
-    std::getline(std::cin, keyHit);
-    if (keyHit == "y")
-    {
-        rtmidi.open_virtual_port();
-        return true;
-    }
+	std::string keyHit;
+	std::getline(std::cin, keyHit);
+	if (keyHit == "y")
+	{
+		rtmidi.open_virtual_port();
+		return true;
+	}
 
-    std::string portName;
-    unsigned int i = 0, nPorts = rtmidi.get_port_count();
-    if (nPorts == 0)
-    {
-        std::cout << "No output ports available!" << std::endl;
-        return false;
-    }
+	std::string portName;
+	unsigned int i = 0, nPorts = rtmidi.get_port_count();
+	if (nPorts == 0)
+	{
+		std::cout << "No output ports available!" << std::endl;
+		return false;
+	}
 
-    if (nPorts == 1)
-    {
-        std::cout << "\nOpening " << rtmidi.get_port_name() << std::endl;
-    }
-    else
-    {
-        for (i = 0; i < nPorts; i++)
-        {a
-            portName = rtmidi.get_port_name(i);
-            std::cout << "  Output port #" << i << ": " << portName << '\n';
-        }
+	if (nPorts == 1)
+	{
+		std::cout << "\nOpening " << rtmidi.get_port_name() << std::endl;
+	}
+	else
+	{
+		for (i = 0; i < nPorts; i++)
+		{
+			portName = rtmidi.get_port_name(i);
+			std::cout << "  Output port #" << i << ": " << portName << '\n';
+		}
 
-        do
-        {
-            std::cout << "\nChoose a port number: ";
-            std::cin >> i;
-        } while (i >= nPorts);
-    }
+		do
+		{
+			std::cout << "\nChoose a port number: ";
+			std::cin >> i;
+		} while (i >= nPorts);
+	}
 
-    std::cout << "\n";
-   // rtmidi.open_port(i);
-    rtmidi.open_port(0);
-
-    return true;
+	std::cout << "\n";
+	// rtmidi.open_port(i);
+	rtmidi.open_port(0);
+	
+	return true;
 }
 
 int main1(void) try
 {
-    using namespace std::literals;
+	using namespace std::literals;
 
-    //std::vector<unsigned char> message;
+	//std::vector<unsigned char> message;
 
-    // Call function to select port.
-    if (chooseMidiPort(midiout) == false)
-        return 0;
+	// Call function to select port.
+	if (chooseMidiPort(midiout) == false)
+		return 0;
 
-    // Send out a series of MIDI messages.
+	// Send out a series of MIDI messages.
 
-    // Program change: 192, 5
-    //message.push_back(192);
-    //message.push_back(5);
-    //midiout.send_message(message);
+	// Program change: 192, 5
+	//message.push_back(192);
+	//message.push_back(5);
+	//midiout.send_message(message);
 
-    //std::this_thread::sleep_for(500ms);
+	//std::this_thread::sleep_for(500ms);
 
-    //message[0] = 0xF1;
-    //message[1] = 60;
-    //midiout.send_message(message);
+	//message[0] = 0xF1;
+	//message[1] = 60;
+	//midiout.send_message(message);
 
-    //// Control Change: 176, 7, 100 (volume)
-    //message[0] = 176;
-    //message[1] = 7;
-    //message.push_back(100);
-    //midiout.send_message(message);
+	//// Control Change: 176, 7, 100 (volume)
+	//message[0] = 176;
+	//message[1] = 7;
+	//message.push_back(100);
+	//midiout.send_message(message);
 
-    //// Note On: 144, 64, 90
-    //message[0] = 144;
-    //message[1] = 64;
-    //message[2] = 90;
-    //midiout.send_message(message);
+	//// Note On: 144, 64, 90
+	//message[0] = 144;
+	//message[1] = 64;
+	//message[2] = 90;
+	//midiout.send_message(message);
 
-    //std::this_thread::sleep_for(500ms);
+	//std::this_thread::sleep_for(500ms);
 
-    //// Note Off: 128, 64, 40
-    //message[0] = 128;
-    //message[1] = 64;
-    //message[2] = 40;
-    //midiout.send_message(message);
+	//// Note Off: 128, 64, 40
+	//message[0] = 128;
+	//message[1] = 64;
+	//message[2] = 40;
+	//midiout.send_message(message);
 
-    //std::this_thread::sleep_for(500ms);
+	//std::this_thread::sleep_for(500ms);
 
-    //// Control Change: 176, 7, 40
-    //message[0] = 176;
-    //message[1] = 7;
-    //message[2] = 40;
-    //midiout.send_message(message);
+	//// Control Change: 176, 7, 40
+	//message[0] = 176;
+	//message[1] = 7;
+	//message[2] = 40;
+	//midiout.send_message(message);
 
-    //std::this_thread::sleep_for(500ms);
+	//std::this_thread::sleep_for(500ms);
 
-    //// Sysex: 240, 67, 4, 3, 2, 247
-    //message[0] = 240;
-    //message[1] = 67;
-    //message[2] = 4;
-    //message.push_back(3);
-    //message.push_back(2);
-    //message.push_back(247);
-    //midiout.send_message(message);
+	//// Sysex: 240, 67, 4, 3, 2, 247
+	//message[0] = 240;
+	//message[1] = 67;
+	//message[2] = 4;
+	//message.push_back(3);
+	//message.push_back(2);
+	//message.push_back(247);
+	//midiout.send_message(message);
 
-    return 0;
+	return 0;
 }
 catch (const rtmidi::midi_exception & error)
 {
-    std::cerr << error.what() << std::endl;
-    exit(EXIT_FAILURE);
+	std::cerr << error.what() << std::endl;
+	exit(EXIT_FAILURE);
 }
 
 
@@ -264,9 +266,9 @@ DWORD WINAPI ThreadFunc1(void* data) {
 int main(int argc, char argv[]) {
 	//HRESULT WINAPI DirectSoundCreate(LPGUID lpGuid, LPDIRECTSOUND * ppDS, LPUNKNOWN  pUnkOuter);
 	HANDLE thread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);   //Playsequence in own Thread
-	            //midi_main(0, 0);													//open Midi Port, set up Midi
+				//midi_main(0, 0);													//open Midi Port, set up Midi
 	main1();
-				//getch();
+	//getch();
 	call_raster_main();													// Print Raster etc..								
 
 
@@ -281,7 +283,7 @@ int main(int argc, char argv[]) {
 int call_raster_main() {
 
 	sendMidiBank(0, 7);                 //channel - Bank number              
-	midi1_sendPrgChange(0, 1);
+	midi1_sendPrgChange(0, 0);
 
 	//***
 	int xb = 1;
@@ -354,22 +356,22 @@ int call_raster_main() {
 		draw_buttons(2, 3, 4, 6);
 		/*printf("MOUSEchan[active].lib X: %d Y:%d\n", chan[active].lib[posX][posY].posX, chan[active].lib[posX][posY].posY);
 		printf("MOUSEPOS X: %d Y:%d", posX, posY);*/
-		
-	
+
+
 		do
 		{
 			//printf("NULL");
-		} while (input_Buffer_Events_main()==0);
+		} while (input_Buffer_Events_main() == 0);
 		//	rlutil::setColor(10);
 			//printf("MOUSE X: %d Y:%d",posX,posY);
 		//	printf("NOTNULL");
 		//if (input_Buffer_Events_main()) {
 		//	if (posX < xs && posY < ys) {
-	
+
 
 		if (myMouseB != 0) {
 			tx = posX;
-		
+
 			if (posX == 1) {
 
 			}
@@ -390,14 +392,14 @@ int call_raster_main() {
 				}
 
 				chan[active].lib[posY][posX].triggerX = tx;
-			
-			
+
+
 			}
 
-			else if (posX >= xoff-2 && posX < xoff-2+yb && posY > X_COUNT  + yoffset + yoffset1 && posY< X_COUNT + 1 + yoffset + yoffset1+xb) {
-				active = posX;
-				printf("HIT %d",(posX-(xoff-2)));
-				printf("\033[%d;%dH\x1b[38;2;%d;%d;%dm\x1b[48;2;%d;%d;%dm%c\x1b[0m\n", posY, posX, 255,255, 255, 12, 12, 12, "X");
+			else if (posX >= xoff - 2 && posX < xoff - 2 + yb && posY > X_COUNT + yoffset + yoffset1 && posY < X_COUNT + 1 + yoffset + yoffset1 + xb) {
+				active = posX - (xoff - 2);
+				printf("HIT %d", (posX - (xoff - 3)));
+				printf("\033[%d;%dH\x1b[38;2;%d;%d;%dm\x1b[48;2;%d;%d;%dm%c\x1b[0m\n", posY, posX, 255, 255, 255, 12, 12, 12, "X");
 				//draw_buttons(int xb, int yb, int yoffset1, int xoff)
 				//draw_buttons(1, 8, 0, 6);     //rows, colums, yoffset, xpos
 			}
@@ -429,7 +431,7 @@ void setBpm(int updown) {
 	printf("%d active", active);
 }
 
-int playSequence(dat [9][17]) {
+int playSequence(dat[9][17]) {
 	HANDLE    hIOMutex = CreateMutex(NULL, TRUE, NULL);
 
 	WaitForSingleObject(hIOMutex, INFINITE);
@@ -459,7 +461,7 @@ int playSequence(dat [9][17]) {
 	//******MS
 
 		//
-	for (size_t c = 1; c < 8; c++) {
+	for (size_t c = 0; c < 8; c++) {
 		for (size_t x = 1; x < xs; x++) {
 			for (size_t y = 1; y < ys; y++) {
 				chan[c].lib[x][y].notenumber = 35 + x;    //assign Notenumbers
@@ -472,7 +474,7 @@ int playSequence(dat [9][17]) {
 	/*House myHouse = { 640,400,.room[0] = {{1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0},64,127,1},
 							   .room[1] = {{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},64,127,1},
 							   .room[2] = {{1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1},64,127,1} };*/
-	//printf("THE ROOM: %d\n", myHouse.room[1].notenumber);
+							   //printf("THE ROOM: %d\n", myHouse.room[1].notenumber);
 
 	while (isplaying) {
 		begin = clock();
@@ -483,19 +485,19 @@ int playSequence(dat [9][17]) {
 			//printf("%f", swing);
 			//printf("*");									 //Do things...
 			SetPosition(index * 2 - 1, 1);		//cursorPosition as Step Indicator   Curser
-			                midi1_all_notesoff();    //ALLNOTES OFF
-			//midi1_reset();
+			midi1_all_notesoff();    //ALLNOTES OFF
+//midi1_reset();
 			for (int i = 1; i < xs; i++) {
 
 				//if (myHouse.room[i].trigger[index]) {
-				for (int j = 1; j < 8; j++) {
+				for (int j = 0; j < 8; j++) {
 					if (chan[j].lib[i][index].playerChr == '*') {
 
 						// SetPosition(chan[active].lib[i][index].triggerX, X_COUNT+1+ yoffset + i);
 						// SetPosition(chan[active].lib[i][index].triggerX, 1);
 						// printf("T");
 
-						printf("X: %d Y: %d", i, index);
+					//	printf("X: %d Y: %d J:%d", i, index,j);
 						// s_main(fpath, 0);
 									 //    midi1_noteout(1, chan[active].lib[i][index].notenumber, 100);            // NOTE OUT
 						midi1_noteout(j, chan[j].lib[i][index].notenumber, 100);            // NOTE OUT
@@ -594,7 +596,7 @@ void SetPosition(int X, int Y)
 }
 void midi1_noteout(int chan, int noten, int velo) {
 	// Note On: 144, 64, 90
-	message[0] = 144+chan;
+	message[0] = 144 + chan;
 	message[1] = noten;
 	message[2] = velo;
 	midiout.send_message(message);
@@ -611,25 +613,25 @@ void midi1_all_notesoff() {
 	}
 }
 void midi1_sendPrgChange(int thechannel, int prgnumber) {
-		message1[0] = 192 + thechannel;
-		message1[1] = prgnumber;
-		midiout.send_message(message1);
+	message1[0] = 192 + thechannel;
+	message1[1] = prgnumber;
+	midiout.send_message(message1);
 }
 
-	void sendMidiBank(int thechannel, int thebank) {
+void sendMidiBank(int thechannel, int thebank) {
 
-		message[0] = 176 + thechannel; //0-15;
-		message[1] = 0;  //ALL notes off
-		message[2] = thebank;  //ALL notes off
-		midiout.send_message(message);
-		//message1.data[3] = 32;
-		//message1.data[4] = 0;  //ALL notes off
-		//message1.data[5] = 192 + thechannel;
-		//message1.data[6] = theprg;
+	message[0] = 176 + thechannel; //0-15;
+	message[1] = 0;  //ALL notes off
+	message[2] = thebank;  //ALL notes off
+	midiout.send_message(message);
+	//message1.data[3] = 32;
+	//message1.data[4] = 0;  //ALL notes off
+	//message1.data[5] = 192 + thechannel;
+	//message1.data[6] = theprg;
 
-		//flag = midiOutShortMsg(device, message1.word);
-		//printf("OOO");
-		//flag = midiOutShortMsg();
-		//flag = midiOutMessage(device,message1.word,8,8);
-	   //ALL notes off
-	}
+	//flag = midiOutShortMsg(device, message1.word);
+	//printf("OOO");
+	//flag = midiOutShortMsg();
+	//flag = midiOutMessage(device,message1.word,8,8);
+   //ALL notes off
+}
