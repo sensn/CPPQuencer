@@ -39,7 +39,8 @@
 #include "rlutil.h"
 //#include "../RtMidi17-master/rtmidi17/rtmidi17.hpp"
 #define _USE_MATH_DEFINES
-
+#define RTMIDI17_WINMM
+//#pragma comment(lib, "Winmm.lib")
 
 
 #define MAX 35
@@ -264,13 +265,19 @@ DWORD WINAPI ThreadFunc1(void* data) {
 }
 
 int main(int argc, char argv[]) {
+	
+	
 	//HRESULT WINAPI DirectSoundCreate(LPGUID lpGuid, LPDIRECTSOUND * ppDS, LPUNKNOWN  pUnkOuter);
 	HANDLE thread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);   //Playsequence in own Thread
 				//midi_main(0, 0);													//open Midi Port, set up Midi
 	main1();
 	//getch();
 	call_raster_main();													// Print Raster etc..								
+	
+	
+	SetConsoleTitle(TEXT("CPPQUENCER"));
 
+	
 
 	//s_main(fpath, 0);
 	//s_main(fpath, 1);

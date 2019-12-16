@@ -32,5 +32,8 @@
     <ClInclude Include="Input_Buffer_Events.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\RtMidi17-master\rtmidi17\rtmidi17.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

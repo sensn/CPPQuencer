@@ -44,7 +44,7 @@ int input_Buffer_Events_main()
      int myMouseB =0;
 	 int myKey=0 ;*/
 
-
+	
 
 	bool leftispressed = 0;
 	int counter = 0;
@@ -69,8 +69,8 @@ int input_Buffer_Events_main()
 		printf("SetConsoleMode");
 
 	// Enable the window and mouse input events. 
-
-	fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
+	fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS;
+	//fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
 	if (!SetConsoleMode(hStdin, fdwMode))
 		printf("SetConsoleMode");
 
@@ -151,19 +151,19 @@ VOID KeyEventProc(KEY_EVENT_RECORD ker)
 			midi1_sendPrgChange(0, 0);			//channel - Prg Number	
 			
 			sendMidiBank(1, 1);                 //channel - Bank number              
-			midi1_sendPrgChange(1, 41);
+			midi1_sendPrgChange(1, 46);
 
 			sendMidiBank(2, 1);                 //channel - Bank number              
-			midi1_sendPrgChange(2, 42);
+			midi1_sendPrgChange(2, 52);
 			
 			sendMidiBank(3, 3);                 //channel - Bank number              
 			midi1_sendPrgChange(3, 2);
 			
 			sendMidiBank(4, 1);                 //channel - Bank number              
-			midi1_sendPrgChange(4, 12);
+			midi1_sendPrgChange(4, 2);
 			
 			sendMidiBank(5, 1);                 //channel - Bank number              
-			midi1_sendPrgChange(5, 18);
+			midi1_sendPrgChange(5, 1);
 		}
 	}
 	else {
